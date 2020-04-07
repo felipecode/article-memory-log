@@ -17,18 +17,18 @@ os.environ['TORCH_HOME'] = os.path.join('../differentiabledata', '_logs',
 model = torchvision.models.segmentation.deeplabv3_resnet101(pretrained=False).cuda()
 
 bs = 1
-input = torch.rand(bs, 3, 512, 512).cuda()
+input_size = torch.rand(bs, 3, 256, 256).cuda()
 
 mem_log = []
 
 try:
-    mem_log.extend(log_mem(model, input, exp='baseline'))
+    mem_log.extend(log_mem(model, input_size, exp='baseline'))
 except Exception as e:
     print(f'log_mem failed because of {e}')
 
 df = pd.DataFrame(mem_log)
 
-plot_mem(df, exps=['baseline'], output_file=f'{base_dir}/baseline_memory_plot_{bs}.png')
+plot_mem(df, exps=['baseline'], output_file=f'{base_dir}/deeplabv3_resnet101_memory_plot_{bs}_{input_size[2]}.png')
 
 #pp(df, exp='baseline')
 
