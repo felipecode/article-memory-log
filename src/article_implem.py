@@ -16,7 +16,7 @@ os.environ['TORCH_HOME'] = os.path.join('../differentiabledata', '_logs',
 #model = resnet18().cuda()
 model = torchvision.models.segmentation.deeplabv3_resnet101(pretrained=False).cuda()
 
-bs = 1
+bs = 128
 input_size = torch.rand(bs, 3, 256, 256).cuda()
 
 mem_log = []
@@ -28,7 +28,8 @@ except Exception as e:
 
 df = pd.DataFrame(mem_log)
 
-plot_mem(df, exps=['baseline'], output_file=f'{base_dir}/deeplabv3_resnet101_memory_plot_{bs}_{input_size.shape[2]}.png')
+plot_mem(df, exps=['baseline'],
+         output_file=f'{base_dir}/deeplabv3_resnet101_memory_plot_{bs}_{input_size.shape[2]}.png')
 
 #pp(df, exp='baseline')
 
