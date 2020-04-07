@@ -28,7 +28,7 @@ except Exception as e:
 
 df = pd.DataFrame(mem_log)
 
-plot_mem(df, exps=['baseline'], output_file=f'{base_dir}/deeplabv3_resnet101_memory_plot_{bs}_{input_size[2]}.png')
+plot_mem(df, exps=['baseline'], output_file=f'{base_dir}/deeplabv3_resnet101_memory_plot_{bs}_{input_size.shape[2]}.png')
 
 #pp(df, exp='baseline')
 
