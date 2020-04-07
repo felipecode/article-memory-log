@@ -1,4 +1,5 @@
 # %% Imports
+import os
 import pandas as pd
 import torch
 from torch import nn
@@ -10,7 +11,8 @@ from src.utils.plot import plot_mem, pp
 
 base_dir = '.'
 # %% Analysis baseline
-
+os.environ['TORCH_HOME'] = os.path.join('../differentiabledata', '_logs',
+                                        'models')
 #model = resnet18().cuda()
 model = torchvision.models.segmentation.deeplabv3_resnet101(pretrained=False).cuda()
 
