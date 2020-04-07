@@ -2,6 +2,7 @@
 import pandas as pd
 import torch
 from torch import nn
+import torchvision
 from torchvision.models import resnet18
 
 from src.utils.memory import log_mem, log_mem_amp, log_mem_amp_cp, log_mem_cp
@@ -10,9 +11,11 @@ from src.utils.plot import plot_mem, pp
 base_dir = '.'
 # %% Analysis baseline
 
-model = resnet18().cuda()
-bs = 128
-input = torch.rand(bs, 3, 224, 224).cuda()
+#model = resnet18().cuda()
+model = torchvision.models.segmentation.deeplabv3_resnet101(pretrained=False).cuda()
+
+bs = 1
+input = torch.rand(bs, 3, 512, 512).cuda()
 
 mem_log = []
 
