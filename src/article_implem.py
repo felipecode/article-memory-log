@@ -25,5 +25,5 @@ df = pd.DataFrame(mem_log)
 
 plot_mem(df, exps=['baseline'], output_file=f'{base_dir}/baseline_memory_plot_{bs}.png')
 
-pp(df, exp='baseline')
+#pp(df, exp='baseline')
 
