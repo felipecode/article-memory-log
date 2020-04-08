@@ -53,13 +53,17 @@ class EncoderCompressedNoHead(nn.Module):
 
 
 
-class ResnetUpsample(nn.Module):
+class Encoder(nn.Module):
     def __init__(self, C=256):
-        super(ResnetUpsample, self).__init__()
-        m = resnet101().cuda()
+        super(Encoder, self).__init__()
+        m = torchvision.models.segmentation.deeplabv3_resnet101(pretrained=True)
+        layer2 = nn.Sequential(*list(m.backbone.layer2.children())[1:])
 
         self.model = nn.Sequential(
-            m,
+            nn.Conv2d(256, 512, 3, 1, 1), nn.ReLU(inplace=True),
+            layer2,
+            m.backbone.layer3,
+            m.backbone.layer4,
             nn.Upsample(scale_factor=16, mode='bilinear', align_corners=True)
         )
 
@@ -72,7 +76,7 @@ base_dir = '.'
 # %% Analysis baseline
 os.environ['TORCH_HOME'] = os.path.join('../differentiabledata', '_logs',
                                         'models')
-model_baseline = ResnetUpsample().cuda()
+model_baseline = Encoder().cuda()
 
 #model_baseline = torchvision.models.segmentation.deeplabv3_resnet101(pretrained=True).cuda()
 model_encoder = EncoderCompressed().cuda()
