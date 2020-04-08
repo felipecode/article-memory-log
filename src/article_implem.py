@@ -25,7 +25,6 @@ class EncoderCompressed(nn.Module):
             nn.Conv2d(in_channels=C, out_channels=C, kernel_size=5, stride=2, padding=2),
             nn.Conv2d(256, 512, 3, 1, 1), nn.ReLU(inplace=True),
             layer2,
-            m.backbone.layer2,
             m.backbone.layer3,
             m.backbone.layer4,
             m.classifier,
