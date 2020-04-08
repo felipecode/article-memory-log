@@ -57,13 +57,16 @@ class Encoder(nn.Module):
     def __init__(self, C=256):
         super(Encoder, self).__init__()
         m = torchvision.models.segmentation.deeplabv3_resnet101(pretrained=True)
-        layer2 = nn.Sequential(*list(m.backbone.layer2.children())[1:])
+
 
         self.model = nn.Sequential(
-            nn.Conv2d(256, 512, 3, 1, 1), nn.ReLU(inplace=True),
-            layer2,
+            m.backbone.conv1,
+            m.backbone.bn1,
+            m.backbone.relu,
+            m.backbone.maxpool,
+            m.backbone.layer1,
+            m.backbone.layer2,
             m.backbone.layer3,
-            m.backbone.layer4,
             nn.Upsample(scale_factor=16, mode='bilinear', align_corners=True)
         )
 
