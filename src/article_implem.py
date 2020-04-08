@@ -77,8 +77,8 @@ model_baseline = ResnetUpsample().cuda()
 model_encoder = EncoderCompressed().cuda()
 model_encoder_no_head = EncoderCompressedNoHead().cuda()
 bs = 1
-input_size = torch.rand(bs, 3, 512, 512).cuda()
-input_size_no_head = torch.rand(bs, 256, 32, 32).cuda()
+input_size = torch.rand(bs, 3, 256, 256).cuda()
+input_size_no_head = torch.rand(bs, 256, 16, 16).cuda()
 #model(input_size)
 
 mem_log_baseline = []
