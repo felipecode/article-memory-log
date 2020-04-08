@@ -45,11 +45,10 @@ os.environ['TORCH_HOME'] = os.path.join('../differentiabledata', '_logs',
 #model = resnet101().cuda()
 #model = torchvision.models.segmentation.deeplabv3_resnet101(pretrained=True).cuda()
 
-model = EncoderCompressed()
+model = EncoderCompressed().cuda()
 bs = 1
 input_size = torch.rand(bs, 3, 512, 512).cuda()
 
-model(input_size)
 
 mem_log = []
 
