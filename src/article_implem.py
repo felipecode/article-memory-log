@@ -49,6 +49,8 @@ model = EncoderCompressed()
 bs = 1
 input_size = torch.rand(bs, 3, 512, 512).cuda()
 
+model(input_size)
+
 mem_log = []
 
 try:
