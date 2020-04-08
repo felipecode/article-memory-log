@@ -27,7 +27,7 @@ class EncoderCompressed(nn.Module):
             layer2,
             m.backbone.layer3,
             m.backbone.layer4,
-            nn.Upsample(scale_factor=16, mode='bilinear', align_corners=True)
+            #nn.Upsample(scale_factor=16, mode='bilinear', align_corners=True)
         )
 
     def forward(self, x, rate=None):
@@ -45,7 +45,7 @@ class EncoderCompressedNoHead(nn.Module):
             layer2,
             m.backbone.layer3,
             m.backbone.layer4,
-            nn.Upsample(scale_factor=16, mode='bilinear', align_corners=True)
+            #nn.Upsample(scale_factor=16, mode='bilinear', align_corners=True)
         )
 
     def forward(self, x, rate=None):
@@ -58,8 +58,8 @@ base_dir = '.'
 # %% Analysis baseline
 os.environ['TORCH_HOME'] = os.path.join('../differentiabledata', '_logs',
                                         'models')
-#model = resnet101().cuda()
-model_baseline = torchvision.models.segmentation.deeplabv3_resnet101(pretrained=True).cuda()
+model_baseline = resnet101().cuda()
+#model_baseline = torchvision.models.segmentation.deeplabv3_resnet101(pretrained=True).cuda()
 model_encoder = EncoderCompressed().cuda()
 model_encoder_no_head = EncoderCompressedNoHead().cuda()
 bs = 1
@@ -75,7 +75,8 @@ try:
     mem_log_baseline.extend(log_mem(model_baseline, input_size, exp='baseline'))
     mem_log_encoder.extend(log_mem(model_encoder, input_size, exp='encoder'))
     mem_log_encoder_no_head.extend(log_mem(model_encoder_no_head,
-                                           input_size_no_head, exp='encoder_no_head'))
+                                           input_size_no_head,
+                                   exp='encoder_no_head'))
 except Exception as e:
     print(f'log_mem failed because of {e}')
 
