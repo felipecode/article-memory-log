@@ -27,7 +27,7 @@ class EncoderCompressed(nn.Module):
             layer2,
             m.backbone.layer3,
             m.backbone.layer4,
-            #nn.Upsample(scale_factor=16, mode='bilinear', align_corners=True)
+            nn.Upsample(scale_factor=16, mode='bilinear', align_corners=True)
         )
 
     def forward(self, x, rate=None):
@@ -45,7 +45,7 @@ class EncoderCompressedNoHead(nn.Module):
             layer2,
             m.backbone.layer3,
             m.backbone.layer4,
-            #nn.Upsample(scale_factor=16, mode='bilinear', align_corners=True)
+            nn.Upsample(scale_factor=16, mode='bilinear', align_corners=True)
         )
 
     def forward(self, x, rate=None):
@@ -53,12 +53,26 @@ class EncoderCompressedNoHead(nn.Module):
 
 
 
+class ResnetUpsample(nn.Module):
+    def __init__(self, C=256):
+        super(ResnetUpsample, self).__init__()
+        m = resnet101().cuda()
+
+        self.model = nn.Sequential(
+            m,
+            nn.Upsample(scale_factor=16, mode='bilinear', align_corners=True)
+        )
+
+    def forward(self, x, rate=None):
+        return self.model(x)
+
+
 
 base_dir = '.'
 # %% Analysis baseline
 os.environ['TORCH_HOME'] = os.path.join('../differentiabledata', '_logs',
                                         'models')
-model_baseline = resnet101().cuda()
+model_baseline = ResnetUpsample().cuda()
 #model_baseline = torchvision.models.segmentation.deeplabv3_resnet101(pretrained=True).cuda()
 model_encoder = EncoderCompressed().cuda()
 model_encoder_no_head = EncoderCompressedNoHead().cuda()
@@ -83,7 +97,7 @@ except Exception as e:
 df = pd.DataFrame(mem_log_encoder+mem_log_baseline+mem_log_encoder_no_head)
 
 plot_mem(df, exps=['baseline','encoder','encoder_no_head'],
-         output_file=f'{base_dir}/comparison_plot_{bs}_{input_size.shape[2]}.png')
+         output_file=f'{base_dir}/comparison_upsample_plot_{bs}_{input_size.shape[2]}.png')
 
 #pp(df, exp='baseline')
 
