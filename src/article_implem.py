@@ -76,7 +76,7 @@ model_baseline = ResnetUpsample().cuda()
 #model_baseline = torchvision.models.segmentation.deeplabv3_resnet101(pretrained=True).cuda()
 model_encoder = EncoderCompressed().cuda()
 model_encoder_no_head = EncoderCompressedNoHead().cuda()
-bs = 8
+bs = 1
 input_size = torch.rand(bs, 3, 512, 512).cuda()
 input_size_no_head = torch.rand(bs, 256, 32, 32).cuda()
 #model(input_size)
