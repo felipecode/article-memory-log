@@ -73,14 +73,14 @@ base_dir = '.'
 os.environ['TORCH_HOME'] = os.path.join('../differentiabledata', '_logs',
                                         'models')
 model_baseline = ResnetUpsample().cuda()
+
 #model_baseline = torchvision.models.segmentation.deeplabv3_resnet101(pretrained=True).cuda()
 model_encoder = EncoderCompressed().cuda()
 model_encoder_no_head = EncoderCompressedNoHead().cuda()
 bs = 1
 input_size = torch.rand(bs, 3, 256, 256).cuda()
 input_size_no_head = torch.rand(bs, 256, 16, 16).cuda()
-#model(input_size)
-
+model_baseline(input_size)
 mem_log_baseline = []
 mem_log_encoder = []
 mem_log_encoder_no_head = []
