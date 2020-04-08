@@ -13,6 +13,7 @@ class EncoderCompressed(nn.Module):
     def __init__(self, C=256):
         super(EncoderCompressed, self).__init__()
         m = torchvision.models.segmentation.deeplabv3_resnet101(pretrained=True)
+        layer2 = nn.Sequential(*list(m.backbone.layer2.children())[1:])
 
         self.model = nn.Sequential(
             nn.Conv2d(in_channels=3, out_channels=C, kernel_size=5, stride=2, padding=2),
@@ -23,6 +24,7 @@ class EncoderCompressed(nn.Module):
             nn.ReLU(inplace=True),
             nn.Conv2d(in_channels=C, out_channels=C, kernel_size=5, stride=2, padding=2),
             nn.Conv2d(256, 512, 3, 1, 1), nn.ReLU(inplace=True),
+            layer2,
             m.backbone.layer2,
             m.backbone.layer3,
             m.backbone.layer4,
